@@ -1,0 +1,17 @@
+Engine progress
+---------------
+
+Game mechanics:
+
+	Pickup item
+	Attack tile
+	Enemy tile hashtable?
+	Projectiles
+	
+Bigger:
+
+	Debug layer: draw pixel, draw line, draw rect, draw text
+	UI layer: UI tileset
+
+Actor dictionary
+	position --> actor

@@ -1,0 +1,3 @@
+[submodule "Foster.Audio"]
+	path = Foster.Audio
+	url = https://github.com/stijn-roc/Foster.Audio

@@ -1,0 +1,26 @@
+<Solution>
+  <Project Path="Foster.Audio/Foster.Audio/Foster.Audio.csproj" />
+  <Project Path="ITalent.Games.Assets/ITalent.Games.Assets.csproj" Id="9bd0490d-57a6-4763-aa4e-6b9e1d2b0996" />
+  <Project Path="ITalent.Games.Audio/ITalent.Games.NAudio.csproj" Id="2a105b07-ebb7-4f0c-b187-195787bcce88" />
+  <Project Path="ITalent.Games.AudioLibrary/ITalent.Games.AudioLibrary.csproj" Id="bbd38599-2452-4a61-91c5-56bfb493688f" />
+  <Project Path="ITalent.Games.Examples.BigScrollingMap/ITalent.Games.Examples.BigScrollingMap.csproj" />
+  <Project Path="ITalent.Games.Examples.Bomberman/ITalent.Games.Examples.Bomberman.csproj" Id="3d246d4d-f1e7-4d8c-9185-54587a68bac3" />
+  <Project Path="ITalent.Games.Examples.Demo/ITalent.Games.Examples.Demo.csproj" />
+  <Project Path="ITalent.Games.Examples.HelloWorld/ITalent.Games.Examples.HelloWorld.csproj" />
+  <Project Path="ITalent.Games.Examples.MapScaling/ITalent.Games.Examples.MapScaling.csproj" />
+  <Project Path="ITalent.Games.Examples.Menu/ITalent.Games.Examples.Menu.csproj" />
+  <Project Path="ITalent.Games.Examples.MouseInteraction/ITalent.Games.Examples.MouseInteraction.csproj" />
+  <Project Path="ITalent.Games.Examples.OpenAL/ITalent.Games.Examples.OpenAL.csproj" Id="749dfa8b-1fbd-4271-9b8b-92f074fe9c3c" />
+  <Project Path="ITalent.Games.Examples.Sprites/ITalent.Games.Examples.Sprites.csproj" />
+  <Project Path="ITalent.Games.Examples.Tetris/ITalent.Games.Examples.Tetris.csproj" />
+  <Project Path="ITalent.Games.Examples.Vector/ITalent.Games.Examples.Vector.csproj" />
+  <Project Path="ITalent.Games.FosterAudio/ITalent.Games.FosterAudio.csproj" Id="5d903616-0099-47f4-be8f-fe90c774ca7f" />
+  <Project Path="ITalent.Games.Serial/ITalent.Games.Serial.csproj" Id="649d1de5-e640-4aba-98aa-5983eba13131" />
+  <Project Path="ITalent.Games.Setup/ITalent.Games.Setup.vdproj" Type="Installer">
+    <Build />
+  </Project>
+  <Project Path="ITalent.Games.Template/ITalent.Games.Template.csproj" Id="d9643f61-b2c0-41aa-baf9-ba923c3e7f77" />
+  <Project Path="ITalent.Games.Tiled/ITalent.Games.Tiled.csproj" />
+  <Project Path="ITalent.Games.TopDownGame/ITalent.Games.TopDownGame.csproj" Id="caa1d142-698b-4e40-98f5-89e042977868" />
+  <Project Path="OpenALTests/OpenALTests.csproj" Id="3650f727-b126-45c1-92e6-2a62bc66ff67" />
+</Solution>

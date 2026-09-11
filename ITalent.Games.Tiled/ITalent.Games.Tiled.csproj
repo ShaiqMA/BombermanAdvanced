@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+		<Version>1.0.2</Version>
+    <RootNamespace>ITalent.Games.Tiled</RootNamespace>
+    <AssemblyName>ITalent.Games.Tiled</AssemblyName>
+    <TargetFramework>net10.0</TargetFramework>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Title>ITalent-workspace Tiled Game Development Library</Title>
+    <Authors>Stijn Raaijmakers</Authors>
+    <Company>ITalent-workspace</Company>
+    <Description>A library to create 2D games in C#. Aimed for education it is light, easy to use and performs great on slow old computers.</Description>
+    <RepositoryUrl>https://github.com/ITalent-workspace/ITalent.Games</RepositoryUrl>
+    <PackageTags>2D;game;gamedev;retro;pixel</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTK" Version="4.8.2" />
+    <PackageReference Include="StbImageSharp" Version="2.27.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Shaders\font.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Shaders\font.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Shaders\tiles.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Shaders\tiles.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Shaders\sprites.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Shaders\sprites.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Shaders\*.*" packagePath="contentFiles\any\any\Shaders" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+	
+</Project>

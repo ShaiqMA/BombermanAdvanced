@@ -1,0 +1,49 @@
+Game mechanics to test engine: NPC ecology: predator/prey/plant
+---------------------------------------------------------------
+
+Spidernest
+	8 neighbour tiles
+	if player is near
+	if any neighbour tile empty
+	spawn 1HP spider at random neighbour tile
+	
+Spider
+	4 neighbour tiles
+	if player in neighbour tile: rotate towards player
+	if player in same tile next think: attack player
+	if prey in neighbour tile: instant attack
+	spider HP = 1
+	if eat pray: HP + 1
+	if not eat for one minute: HP - 1 (reset minute)
+	if receive damage: size - damage
+	if HP == 0: die
+	max size 5
+	if nothing to attack, move to random empty square (out of the 4)
+	after eat prey: shit
+
+Spider shit
+	50% chance to spawn plant seedling
+	
+Prey
+	1 HP
+	every turn: move to random neighbour square
+	if 1 HP and plant in neighbour square: eat it, then 2 HP
+	if not eat for one minute: HP - 1 (reset minute)
+	if HP == 0: die
+
+Plant
+	no collision
+	if eaten, spawn new plant seedling
+	if attacked, die forever
+	if not eaten for 1 minute, spawn new plant seedling next to it at empty neighbouring tile
+	
+Plant seedling
+	grow into plant in 1 minute
+	
+GFX needed:
+	growing plant/seed
+	full-grown plant
+	prey
+	attack blast
+	blood splash on floor
+	spider nest
