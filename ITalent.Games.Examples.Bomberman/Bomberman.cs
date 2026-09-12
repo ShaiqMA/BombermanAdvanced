@@ -405,7 +405,7 @@ class UpdateContext
   public MapRenderLayer Map;
 }
 
-enum TreasureId { None, Range = 16, Bomb = 17, ExitDoor = 19 }
+enum TreasureId { None, Range = 16, Bomb = 17,  ExtraLife = 26 , ExitDoor = 19 }
 
 class GameState
 {
@@ -556,11 +556,13 @@ class GameState
 
   internal void PlaceTreasures(Random random, ByteGrid grid)
   {
-    var options = PickRandomSpots(random, grid, 3, p => p.Value == 0);
-    Debug.Assert(options.Count == 3);
+    var options = PickRandomSpots(random, grid, 4, p => p.Value == 0);
+    Debug.Assert(options.Count == 4);
     TreasureLocations[options[0]] = TreasureId.ExitDoor;
     TreasureLocations[options[1]] = TreasureId.Bomb;
     TreasureLocations[options[2]] = TreasureId.Range;
+    TreasureLocations[options[3]] = TreasureId.ExtraLife;
+
     Debug.WriteLine(string.Join(',', options));
   }
 
@@ -591,6 +593,9 @@ class GameState
         case TreasureId.Range:
           BombRange++;
           break;
+        case TreasureId.ExtraLife:
+                    Lives++;
+                    break;
         case TreasureId.ExitDoor:
           // TODO: next level if all enemies are dead
           return;
