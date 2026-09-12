@@ -119,7 +119,7 @@ class PlayGameScreen : IScreen
     var textWriter = new TextWriter(window.TextLayer.Tiles);
     textWriter.Clear();
     textWriter.CursorPos = new(1, 1);
-    textWriter.Write($"Score: 00000    Bombs: {state.MaxBombCount}   Power: {state.BombRange}   Lives: {state.Lives}");
+    textWriter.Write($"Score: {state.PlayerScore}    Bombs: {state.MaxBombCount}   Power: {state.BombRange}   Lives: {state.Lives}");
 
     if( window.KeyboardState.IsKeyPressed(Keys.End))
     {
@@ -405,13 +405,14 @@ class UpdateContext
   public MapRenderLayer Map;
 }
 
-enum TreasureId { None, Range = 16, Bomb = 17,  ExtraLife = 26 , ExitDoor = 19 }
+enum TreasureId { None, Range = 16, Bomb = 17,  ExtraLife = 26, KillAll = 27 , ExitDoor = 19, BonusPoints = 25 }
 
 class GameState
 {
   public int Lives;
   public int Stage;
   public int MaxBombCount;
+  public int PlayerScore;
   public int BombCount;
   public int BombRange;
   public Player Player;
@@ -523,6 +524,7 @@ class GameState
     {
       Fires.Add(new Fire(18, p));
       other.IsRemoved = true;
+            PlayerScore = PlayerScore + 100;
     }
     // check kill player
     if (Player.TilePosition == p)
@@ -556,14 +558,50 @@ class GameState
 
   internal void PlaceTreasures(Random random, ByteGrid grid)
   {
-    var options = PickRandomSpots(random, grid, 4, p => p.Value == 0);
-    Debug.Assert(options.Count == 4);
-    TreasureLocations[options[0]] = TreasureId.ExitDoor;
-    TreasureLocations[options[1]] = TreasureId.Bomb;
-    TreasureLocations[options[2]] = TreasureId.Range;
-    TreasureLocations[options[3]] = TreasureId.ExtraLife;
+        var options = PickRandomSpots(random, grid, 6, p => p.Value == 0);
+        Debug.Assert(options.Count == 6);
+        
+        var items = new List<TreasureId>
+        {
+        TreasureId.ExitDoor,      
+        TreasureId.Bomb,
+        TreasureId.Range,
+        TreasureId.ExtraLife,
+        TreasureId.KillAll,
+        TreasureId.BonusPoints
+        };
 
-    Debug.WriteLine(string.Join(',', options));
+        
+        var selected = items.Where(x => x != TreasureId.ExitDoor)
+                            .OrderBy(_ => random.Next())
+                            .Take(2)
+                            .ToList();
+
+        selected.Add(TreasureId.ExitDoor); 
+
+        while (selected.Count < 6)
+        {
+            selected.Add(TreasureId.None); 
+        }
+
+      
+        var shuffledItems = selected.OrderBy(_ => random.Next()).ToList();
+
+        TreasureLocations[options[0]] = shuffledItems[0];
+        TreasureLocations[options[1]] = shuffledItems[1];
+        TreasureLocations[options[2]] = shuffledItems[2];
+        TreasureLocations[options[3]] = shuffledItems[3];
+        TreasureLocations[options[4]] = shuffledItems[4];
+        TreasureLocations[options[5]] = shuffledItems[5];
+
+        
+        foreach (var key in TreasureLocations.Where(kv => kv.Value == TreasureId.None).Select(kv => kv.Key).ToList())
+        {
+            TreasureLocations.Remove(key);
+        }
+
+        Debug.WriteLine(string.Join(',', options));
+    
   }
 
   internal void PlaceEnemies(Random random, ByteGrid grid)
@@ -596,6 +634,12 @@ class GameState
         case TreasureId.ExtraLife:
                     Lives++;
                     break;
+        case TreasureId.KillAll:
+                    Enemies.Clear();
+                    break;
+        case TreasureId.BonusPoints:
+                    PlayerScore =+ 100;
+                    break;
         case TreasureId.ExitDoor:
           // TODO: next level if all enemies are dead
           return;
@@ -611,6 +655,7 @@ class GameState
     Lives = 3;
     Stage = 1;
     MaxBombCount = 1;
+    PlayerScore = 0;
     BombCount = 0;
     BombRange = 1;
     Player = null;
@@ -621,6 +666,8 @@ class GameState
     TreasureLocations.Clear();
     _needUpdate = true;
   }
+  
+
 
   internal void NextLevel()
   {
@@ -643,6 +690,7 @@ class GameState
   internal void ResetStage()
   {
     BombCount = 0;
+    PlayerScore = 0;
     Bombs.Clear();
     Fires.Clear();
     Player.Move(new(1, 1));
