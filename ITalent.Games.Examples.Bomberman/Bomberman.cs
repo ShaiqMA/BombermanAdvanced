@@ -21,7 +21,6 @@ internal class Bomberman : TileGameWindow
   private readonly GameState _state = new();
   private IScreen? _screen;
   private readonly UpdateContext _context = new();
-
   public TiledSpriteRenderLayer SpriteLayer => _spriteLayer;
   public MapRenderLayer TextLayer => _textLayer;
   public UpdateContext Context => _context;
@@ -119,7 +118,7 @@ class PlayGameScreen : IScreen
     var textWriter = new TextWriter(window.TextLayer.Tiles);
     textWriter.Clear();
     textWriter.CursorPos = new(1, 1);
-    textWriter.Write($"Score: {state.PlayerScore}    Bombs: {state.MaxBombCount}   Power: {state.BombRange}   Lives: {state.Lives}");
+    textWriter.Write($"Score: {state.PlayerScore}    Bombs: {state.MaxBombCount}   Power: {state.BombRange}   Lives: {state.Lives} Kills: {state.KillCount}");
 
     if( window.KeyboardState.IsKeyPressed(Keys.End))
     {
@@ -415,6 +414,7 @@ class GameState
   public int PlayerScore;
   public int BombCount;
   public int BombRange;
+  public int KillCount;
   public Player Player;
   public List<Bomb> Bombs = [];
   public List<Fire> Fires = [];
@@ -425,7 +425,7 @@ class GameState
   private Random _random;
   private bool _needUpdate = true;
   private Timed _bombCooldown = new(.1);
-  private static readonly Vector2i[] DIRECTIONS = [new(1, 0), new(-1, 0), new(0, 1), new(0, -1)];
+    private static readonly Vector2i[] DIRECTIONS = [new(1, 0), new(-1, 0), new(0, 1), new(0, -1)];
 
   public bool DropBomb()
   {
@@ -458,6 +458,8 @@ class GameState
 
   public void Explode(Bomb bomb, UpdateContext context)
   {
+        PlayerScore = PlayerScore + 100 * KillCount;
+
     bomb.IsRemoved = true;
     //Bombs.Remove(bomb);
     Fires.Add(new Fire(6, bomb.TilePosition));
@@ -525,6 +527,7 @@ class GameState
       Fires.Add(new Fire(18, p));
       other.IsRemoved = true;
             PlayerScore = PlayerScore + 100;
+            KillCount = KillCount + 1;
     }
     // check kill player
     if (Player.TilePosition == p)
@@ -656,6 +659,7 @@ class GameState
     Stage = 1;
     MaxBombCount = 1;
     PlayerScore = 0;
+    KillCount = 0;
     BombCount = 0;
     BombRange = 1;
     Player = null;
@@ -782,6 +786,7 @@ class Player : TiledSprite
   {
     FlipType = FlipType.Horizontal;
     moveSpeed = 4f;
+        
   }
 
   internal void Update(UpdateContext context)
