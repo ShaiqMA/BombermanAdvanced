@@ -1,4 +1,5 @@
 ﻿using ITalent.Games.Tiled;
+using OpenTK.Graphics.GL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -174,11 +175,13 @@ class TitleScreen : IScreen
   }
 }
 
+//class voor ene nieuwe scherm waar je stage kunt selecteren
 class StageScreen : IScreen
 {
     private Bomberman window;
 
     private int optionIndex = 0;
+    //opties in de keuzemenu
     private string[] options = ["stage 1" , "stage 2" , "stage 3" , "stage 4" , "stage 5" , "stage 6" , "stage 7" , "stage 8" , "stage 9" , "stage 10"];
     public void Enter(Bomberman window)
     {
@@ -188,8 +191,8 @@ class StageScreen : IScreen
     }
     public void Update()
     {
-        
-       if (window.KeyboardState.IsKeyPressed(Keys.Down) && optionIndex < options.Length -1)
+        //zorgt voor navigatie met pijlen
+        if (window.KeyboardState.IsKeyPressed(Keys.Down) && optionIndex < options.Length -1)
        {
             optionIndex++;
         }
@@ -197,23 +200,18 @@ class StageScreen : IScreen
        {
             optionIndex--;
        }
-       if (window.KeyboardState.IsKeyPressed(Keys.Enter) && optionIndex == 0)
-       {
-
+        //kijkt bij enter welke keuze je hebt geklikt om de juiste stage te starten
+        if (window.KeyboardState.IsKeyPressed(Keys.Enter))
+        {
             window.Context.State.Reset();
-            window.SwitchScreen<LevelStartScreen>();
-            window.Context.State.InitStage(window.Context.Map);
+            //window.Context.State.StageSelect(2);
+            Level();
+            StageStarter();
             return;
-       } 
-       else if(window.KeyboardState.IsKeyPressed(Keys.Enter) && optionIndex == 1)
-       {
-            
-            int Stage = 1000;
-            window.Context.State.InitStage(window.Context.Map);
-            window.SwitchScreen<LevelStartScreen>();
+        }
 
-            return;
-       }
+
+
 
         StringBuilder menu = new();
         menu.Append("Please slect: \n\n");
@@ -224,12 +222,34 @@ class StageScreen : IScreen
         }
         menu.Append("\n Press Enter tot return");
 
+        
         TextLayout textLayout = new(window.TextLayer);
         textLayout.CenterText(menu.ToString());
     }
 
     public void Exit() { }
+    private void StageStarter()
+    {
+        ;
+        window.Context.State.InitStage(window.Context.Map);
+        window.SwitchScreen<LevelStartScreen>();
+    }
+
+    private void Level()
+    {
+        for (int i = 0; i < options.Length; i++)
+        {
+
+            if (window.KeyboardState.IsKeyPressed(Keys.Enter) && optionIndex == i)
+            {
+                int stage = i;
+                window.Context.State.StageSelect(StageNumber: stage);
+
+            }
+        }
+    }
 }
+
 
 class PlayerDeathScreen : IScreen
 {
@@ -611,13 +631,6 @@ class GameState
     internal void StageSelect(int StageNumber)
     {
         Stage = Stage + StageNumber;
-        BombCount = 0;
-        Bombs.Clear();
-        Fires.Clear();
-        Enemies.Clear();
-        Treasures.Clear();
-        TreasureLocations.Clear();
-        _needUpdate = true;
     }
     
 
